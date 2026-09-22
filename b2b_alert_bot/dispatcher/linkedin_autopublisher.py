@@ -76,7 +76,7 @@ def format_deal_teaser(
 ) -> str:
     """Format an EnrichedLead using one of 4 conversion-optimized LinkedIn archetypes."""
     badge = getattr(enriched, "budget_badge", "💰 $2,000+ HIGH TICKET")
-    title = enriched.lead.title.strip() if enriched.lead and enriched.lead.title else "Senior Contract Specialist"
+    title = getattr(enriched, "clean_title", None) or (enriched.lead.title.strip() if enriched.lead and enriched.lead.title else "Senior Contract Specialist")
     deliverables = getattr(enriched, "scope_bullet", "Deliver core technical architecture and milestones.")
     skills = getattr(enriched, "skills_bullet", "Full Stack, API Architecture")
     winning_angle = getattr(enriched, "winning_angle", "Lead with concrete case studies rather than a generic resume.")
@@ -96,7 +96,7 @@ If you land a $10,000 contract on Upwork:
 
 High-ticket clients aren't posting on bidding boards anymore. They post directly on private engineering portals and remote feeds where they can hire senior talent directly.
 
-Here is what just landed on our radar:
+Here is what just landed on ApexRadar:
 {deals_block}
 
 Direct client links. Direct invoicing. 0% platform tax.
@@ -116,7 +116,7 @@ Why speed is your only unfair advantage in 2026:
 
 If you're still manually refreshing 10 job boards once a day, you have already lost.
 
-We automated the entire radar. The moment a verified $2k+ fixed or $50+/hr contract goes live, our private bot pings with direct client links and pitch intelligence.
+We automated the entire pipeline with ApexRadar. The moment a verified $2k+ fixed or $50+/hr contract goes live, our private bot pings with direct client links and pitch intelligence.
 
 Automate your deal flow:
 {whop_url}"""
@@ -124,7 +124,7 @@ Automate your deal flow:
     elif template == "WINNING_ANGLE_TEARDOWN":
         return f"""How to win a {badge} contract without sending a generic 4-paragraph resume:
 
-Opportunity on our radar:
+Opportunity on ApexRadar:
 🎯 Role: {title}
 🏢 Client: [REDACTED — Verified Private Tech Feed]
 📋 Key Deliverables: {deliverables}
@@ -135,7 +135,7 @@ Opportunity on our radar:
 
 Founders and CTOs don't read 100 proposals. They read the first 5 qualified messages that address their specific architectural risk.
 
-Our private Telegram bot streams 10-20 verified high-ticket contracts every week with pre-computed winning pitch angles.
+ApexRadar streams verified high-ticket contracts every week with pre-computed winning pitch angles.
 
 Join the private stream here:
 {whop_url}"""

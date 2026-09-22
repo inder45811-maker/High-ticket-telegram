@@ -122,6 +122,94 @@ def synthesize_winning_angle(lead: Lead) -> str:
     return best_angle
 
 
+def sanitize_title(title: str) -> str:
+    """Clean job/contract titles from scraper tags and informal markers."""
+    if not title:
+        return "Senior Contract Specialist"
+    cleaned = title.strip()
+    # Remove leading [Hiring], [HIRING], Hiring:, etc.
+    cleaned = re.sub(r"(?i)^\[\s*hiring\s*\]\s*[:-]?\s*", "", cleaned)
+    cleaned = re.sub(r"(?i)^hiring\s*[:-]\s*", "", cleaned)
+    # Remove [Remote], [Paid], [Contract], [Freelance] tags
+    cleaned = re.sub(r"(?i)\[\s*(?:remote|paid|contract|freelance|b2b|fixed|hourly)\s*\]", "", cleaned)
+    # Remove trailing price markers like - $4,000 or ($3k-$5k)
+    cleaned = re.sub(r"[\(\[\-]\s*[\$€£]\s*\d+.*$", "", cleaned)
+    # Remove trailing location markers like | Remote or (Remote)
+    cleaned = re.sub(r"(?i)[\|–-]\s*remote\s*$", "", cleaned)
+    cleaned = re.sub(r"(?i)\(\s*remote\s*\)$", "", cleaned)
+    cleaned = re.sub(r"\s+", " ", cleaned).strip(" :-|;,")
+    if not cleaned:
+        cleaned = title.strip()
+    return cleaned
+
+
+def sanitize_client_name(client: str, title: str = "", description: str = "", source: str = "") -> str:
+    """Sanitize raw author handles (/u/...) into executive B2B client profiles."""
+    raw = (client or "").strip()
+    text = f"{title} {description}".lower()
+
+    # Detect Reddit username handles or anonymous / unstated
+    is_handle = (
+        raw.startswith("/u/") or 
+        raw.startswith("u/") or 
+        raw.lower() in ("anonymous", "direct client", "direct", "unknown", "none", "") or
+        bool(re.match(r"^user_\w+", raw, re.IGNORECASE)) or
+        ("_" in raw and len(raw) < 22)
+    )
+
+    if is_handle:
+        if any(k in text for k in ["ai", "llm", "rag", "agent", "machine learning", "deep learning"]):
+            return "Venture-Backed AI Lab (Direct)"
+        elif any(k in text for k in ["crypto", "web3", "solidity", "defi", "blockchain"]):
+            return "Web3 Protocol Client (Direct)"
+        elif any(k in text for k in ["ecommerce", "shopify", "dtc", "woocommerce"]):
+            return "E-Commerce Growth Brand (Direct)"
+        elif any(k in text for k in ["fintech", "banking", "payments", "trading"]):
+            return "Fintech Scaleup (Direct)"
+        elif any(k in text for k in ["saas", "b2b", "cloud", "devops", "kubernetes"]):
+            return "B2B SaaS Scaleup (Direct)"
+        elif any(k in text for k in ["ios", "android", "mobile", "flutter", "react native"]):
+            return "Consumer Mobile Scaleup (Direct)"
+        elif (source or "").lower() == "hackernews":
+            return "Y Combinator / HN Founder (Direct)"
+        return "Direct Venture Client"
+
+    # Clean valid corporate names: remove raw punctuation
+    clean_corp = re.sub(r"\s+", " ", raw).strip()
+    return clean_corp if clean_corp else "Direct Enterprise Client"
+
+
+def synthesize_business_requirements(lead: Lead, clean_title_str: str, deliverables_str: str) -> Dict[str, Any]:
+    """Generate structured B2B Business Requirements from lead metadata."""
+    full_text = f"{lead.title} {lead.description}".lower()
+
+    if "retainer" in full_text or "monthly" in full_text or "/mo" in full_text:
+        engagement_type = "High-Ticket Advisory Retainer"
+    elif "audit" in full_text or "assessment" in full_text:
+        engagement_type = "Diagnostic Architecture SOW"
+    elif "hourly" in full_text or "/hr" in full_text:
+        engagement_type = "Senior Contracting SOW (Hourly)"
+    else:
+        engagement_type = "Milestone Escrow Contract"
+
+    obj = f"Lead executive technical delivery and milestone execution for {clean_title_str}."
+
+    reqs = []
+    if deliverables_str:
+        reqs.append(f"Deliverable: {deliverables_str}")
+    else:
+        reqs.append(f"Deliver production architecture and core milestones for {clean_title_str}.")
+
+    tech_stack = extract_skills_bullet(lead)
+
+    return {
+        "commercial_objective": obj,
+        "business_requirements": reqs,
+        "engagement_type": engagement_type,
+        "required_capabilities": tech_stack
+    }
+
+
 class DealCardGenerator:
     """3-bullet executive deal card generation engine with deterministic NLP fallback."""
 
@@ -157,6 +245,13 @@ class DealCardGenerator:
         # 3. Winning Angle
         winning_angle = synthesize_winning_angle(lead)
 
+        # 4. Executive Sanitization & Structured Business Requirements
+        clean_title_str = sanitize_title(lead.title)
+        client_display_str = sanitize_client_name(
+            lead.client, title=lead.title, description=lead.description, source=lead.source
+        )
+        b2b_reqs = synthesize_business_requirements(lead, clean_title_str, scope_bullet)
+
         return EnrichedLead(
             lead=lead,
             is_high_ticket=is_high_ticket,
@@ -168,6 +263,12 @@ class DealCardGenerator:
             scope_bullet=scope_bullet,
             skills_bullet=skills_bullet,
             winning_angle=winning_angle,
+            clean_title=clean_title_str,
+            client_display=client_display_str,
+            engagement_type=b2b_reqs["engagement_type"],
+            commercial_objective=b2b_reqs["commercial_objective"],
+            business_requirements=b2b_reqs["business_requirements"],
+            required_capabilities=b2b_reqs["required_capabilities"],
         )
 
 

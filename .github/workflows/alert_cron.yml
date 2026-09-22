@@ -1,4 +1,4 @@
-name: Lead Ingestion & Telegram Dispatcher
+name: ApexRadar — Real-Time B2B Contract Intelligence & Social Dispatcher
 
 on:
   schedule:

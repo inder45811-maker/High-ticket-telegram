@@ -1,4 +1,4 @@
-# B2B High-Ticket Contract & Lead Alert System
+# ApexRadar — Real-Time B2B Contract Intelligence
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Architecture: Modular Services](https://img.shields.io/badge/architecture-modular_async-green.svg)](#architecture)

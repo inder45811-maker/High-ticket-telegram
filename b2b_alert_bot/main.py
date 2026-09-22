@@ -1,4 +1,4 @@
-"""Unified CLI and daemon service for B2B High-Ticket Contract & Lead Alert System.
+"""Unified CLI and daemon service for ApexRadar — Real-Time B2B Contract Intelligence.
 
 Commands:
 - poll: Ingests from 5 connectors (WWR, RemoteOK, Jobspresso, HN, Reddit),
@@ -322,7 +322,7 @@ def run_poll(
     }
 
     print("\n" + "=" * 60)
-    print("           B2B ALERT BOT — POLL CYCLE COMPLETE")
+    print("           APEX RADAR — POLL CYCLE COMPLETE")
     print("=" * 60)
     print(f"  Sources Queried:       {metrics['sources_queried']}")
     print(f"  Total Ingested (New):  {metrics['total_ingested']}")

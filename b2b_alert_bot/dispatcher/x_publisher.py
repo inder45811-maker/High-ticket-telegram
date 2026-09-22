@@ -43,7 +43,7 @@ def format_x_deal_teaser(
 ) -> str:
     """Format an EnrichedLead into a high-converting X deal alert using algorithm-optimized archetypes."""
     badge = getattr(enriched, "budget_badge", "💰 $2,000+ HIGH TICKET")
-    title = enriched.lead.title.strip() if enriched.lead and enriched.lead.title else "Senior Specialist"
+    title = getattr(enriched, "clean_title", None) or (enriched.lead.title.strip() if enriched.lead and enriched.lead.title else "Senior Specialist")
     deliverables = getattr(enriched, "scope_bullet", "Lead core technical architecture.")
     skills = getattr(enriched, "skills_bullet", "")
     winning_angle = getattr(enriched, "winning_angle", "Lead with case studies, not a generic resume.")
@@ -67,8 +67,8 @@ def format_x_deal_teaser(
             f"💡 Pitch: \"{winning_angle[:42]}\"",
             "",
             "🔖 Bookmark to pitch later",
-            f"Radar: {whop_url}",
-            "#techjobs #freelance"
+            f"ApexRadar: {whop_url}",
+            "#ApexRadar #freelance"
         ]
     elif template == "PLATFORM_TAX_ROAST":
         # Archetype 3: The Platform Tax Roast (High Retweet & Quote-Tweet Viral Hook)
@@ -81,7 +81,7 @@ def format_x_deal_teaser(
             f"🎯 {clean_title(38)}",
             "",
             f"0% fees. Apply direct:\n{whop_url}",
-            "#b2b #freelance"
+            "#ApexRadar #b2b"
         ]
     elif template == "SPEED_ASYMMETRY":
         # Archetype 4: The 15-Minute Rule (Urgency & Direct Apply Conversion)
@@ -92,8 +92,8 @@ def format_x_deal_teaser(
             "> 12 hrs: < 4% (buried in bids)",
             "",
             f"🎯 {clean_title(38)}",
-            f"⚡ Direct VIP radar:\n{whop_url}",
-            "#remotework"
+            f"⚡ Direct ApexRadar stream:\n{whop_url}",
+            "#ApexRadar #remotework"
         ]
     else:
         # Default: ARBITRAGE_RADAR_DROP (High CTR Curiosity Drop)
@@ -102,10 +102,10 @@ def format_x_deal_teaser(
             "🚨 HIGH-TICKET DEAL DROP",
             "",
             f"💰 Budget: {badge}",
-            f"🎯 Role: {clean_title(40)}{stack_part}",
+            f"🎯 Role: {clean_title(36)}{stack_part}",
             "",
-            f"⚡ Direct 0% fee apply link:\n{whop_url}",
-            "#freelance #remotework"
+            f"⚡ Direct ApexRadar stream:\n{whop_url}",
+            "#ApexRadar #freelance"
         ]
 
     draft = "\n".join(lines)

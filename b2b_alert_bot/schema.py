@@ -109,6 +109,12 @@ class EnrichedLead:
     winning_angle: str              # Actionable 1-sentence application tip
     jev_badge: Optional[str] = None # Jev calibrated audit badge HTML
     jev_confidence: Optional[float] = None # Calibrated high-ticket probability (0.0 to 1.0)
+    clean_title: Optional[str] = None # Sanitized, executive-grade job/contract title
+    client_display: Optional[str] = None # Sanitized client entity name (no /u/ handles)
+    engagement_type: Optional[str] = None # e.g., "Milestone Escrow", "Monthly Retainer", "Advisory SOW"
+    commercial_objective: Optional[str] = None # Core business goal for the contract
+    business_requirements: List[str] = field(default_factory=list) # Concrete deliverables
+    required_capabilities: Optional[str] = None # Structured tech & domain requirements
 
     def to_dict(self) -> Dict[str, Any]:
         """Serialize EnrichedLead instance to dictionary."""
@@ -124,5 +130,11 @@ class EnrichedLead:
             "skills_bullet": self.skills_bullet,
             "winning_angle": self.winning_angle,
             "jev_badge": self.jev_badge,
-            "jev_confidence": self.jev_confidence
+            "jev_confidence": self.jev_confidence,
+            "clean_title": self.clean_title,
+            "client_display": self.client_display,
+            "engagement_type": self.engagement_type,
+            "commercial_objective": self.commercial_objective,
+            "business_requirements": self.business_requirements,
+            "required_capabilities": self.required_capabilities,
         }

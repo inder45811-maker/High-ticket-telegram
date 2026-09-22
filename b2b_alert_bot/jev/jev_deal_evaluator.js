@@ -109,7 +109,7 @@ SOURCE: ${dealData.source || 'Direct Feed'}
     enterprise: '$30k+ (Enterprise)'
   };
 
-  const badgeSummary = `🛡️ <b>JEV AI VERIFIED:</b> ${(highTicketProb * 100).toFixed(0)}% High-Ticket Prob | 💼 ${tierLabels[topTier] || topTier} (${(tierProb * 100).toFixed(0)}%) | ⚡ Urgency: ${intentScore.toFixed(1)}/5.0`;
+  const badgeSummary = `🛡️ <b>JEV DEAL AUDIT:</b> ${(highTicketProb * 100).toFixed(0)}% High-Ticket Confidence | 💼 ${tierLabels[topTier] || topTier} | ⚡ Urgency: ${intentScore.toFixed(1)}/5.0`;
 
   return {
     success: true,

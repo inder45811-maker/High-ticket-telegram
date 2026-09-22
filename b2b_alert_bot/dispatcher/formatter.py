@@ -251,20 +251,20 @@ def format_deal_card(
         skills = enriched.skills_bullet or ""
         winning_angle = enriched.winning_angle or ""
         lead_id = lead.id or ""
-        lead_title = lead.title or ""
-        lead_client = lead.client or ""
+        lead_title = getattr(enriched, "clean_title", None) or lead.title or ""
+        lead_client = getattr(enriched, "client_display", None) or lead.client or ""
         lead_source = lead.source or ""
     elif isinstance(enriched, dict):
         lead_raw = enriched.get("lead", enriched)
         if isinstance(lead_raw, Lead):
             lead_id = lead_raw.id or ""
-            lead_title = lead_raw.title or ""
-            lead_client = lead_raw.client or ""
+            lead_title = enriched.get("clean_title") or lead_raw.title or ""
+            lead_client = enriched.get("client_display") or lead_raw.client or ""
             lead_source = lead_raw.source or ""
         else:
             lead_id = lead_raw.get("id", "")
-            lead_title = lead_raw.get("title", "")
-            lead_client = lead_raw.get("client", "")
+            lead_title = enriched.get("clean_title") or lead_raw.get("title", "")
+            lead_client = enriched.get("client_display") or lead_raw.get("client", "")
             lead_source = lead_raw.get("source", "")
 
         badge = enriched.get("budget_badge") or format_budget_badge(
@@ -303,6 +303,7 @@ def format_deal_card(
     jev_section = f"\n\n{jev_badge}" if jev_badge else ""
 
     card = (
+        f"💎 <b>APEX RADAR | VERIFIED B2B CONTRACT</b>\n\n"
         f"<b>{esc_badge}</b>\n\n"
         f"🎯 <b>{esc_title}</b>\n"
         f"🏢 <i>{esc_client}</i> • <i>via {esc_source}</i>\n\n"
