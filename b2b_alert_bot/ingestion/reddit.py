@@ -18,26 +18,42 @@ from b2b_alert_bot.schema import Lead, extract_core_tech_stack
 logger = logging.getLogger(__name__)
 
 REDDIT_FORHIRE_RSS_URL = "https://www.reddit.com/r/forhire/.rss"
+DEFAULT_REDDIT_FEEDS = [
+    "https://www.reddit.com/r/forhire/.rss",
+    "https://www.reddit.com/r/startups/.rss",
+    "https://www.reddit.com/r/freelance/.rss",
+]
 
 
 class RedditConnector(BaseConnector):
-    """Connector for Reddit r/forhire public Atom feed with anti-blocking headers."""
+    """Connector for Reddit public Atom feeds with anti-blocking headers and semantic intent matching."""
 
     source_name: str = "reddit"
 
-    def __init__(self, feed_url: str = REDDIT_FORHIRE_RSS_URL, **kwargs):
+    def __init__(self, feed_url: Optional[str] = None, feed_urls: Optional[List[str]] = None, **kwargs):
         # Enforce desktop browser UA to prevent HTTP 403 blocks from Akamai/Cloudflare
         if "user_agent" not in kwargs:
             kwargs["user_agent"] = DEFAULT_DESKTOP_UA
         super().__init__(**kwargs)
-        self.feed_url = feed_url
+        self.feed_url = feed_url or REDDIT_FORHIRE_RSS_URL
+        self.feed_urls = feed_urls or ([self.feed_url] if feed_url else DEFAULT_REDDIT_FEEDS)
 
     def fetch_live(self) -> List[Lead]:
-        """Fetch live Atom XML feed from r/forhire."""
-        raw_xml = self.fetch_url(self.feed_url)
-        if not raw_xml:
-            return []
-        return self.parse(raw_xml)
+        """Fetch live Atom XML feeds across targeted subreddits."""
+        all_leads: List[Lead] = []
+        seen_ids = set()
+
+        for url in self.feed_urls:
+            raw_xml = self.fetch_url(url)
+            if not raw_xml:
+                continue
+            parsed = self.parse(raw_xml)
+            for lead in parsed:
+                if lead.id not in seen_ids:
+                    seen_ids.add(lead.id)
+                    all_leads.append(lead)
+
+        return all_leads
 
     def _extract_compensation(self, text: str) -> str:
         """Extract budget or hourly compensation from title or post body."""
@@ -97,8 +113,13 @@ class RedditConnector(BaseConnector):
 
             raw_title_lower = raw_title.lower()
 
-            # CRITICAL RULE 1: Filter for [Hiring] posts
-            if "[hiring]" not in raw_title_lower:
+            # CRITICAL RULE 1: Match [Hiring] tag OR semantic hiring signal
+            has_hiring_tag = "[hiring]" in raw_title_lower
+            has_intent_signal = any(sig in raw_title_lower for sig in [
+                "looking for", "need a", "need senior", "hiring", "contractor", 
+                "freelance", "developer needed", "engineer needed", "paid gig", "bounty"
+            ])
+            if not has_hiring_tag and not has_intent_signal:
                 continue
 
             # CRITICAL RULE 2: Exclude [For Hire] (job seekers)

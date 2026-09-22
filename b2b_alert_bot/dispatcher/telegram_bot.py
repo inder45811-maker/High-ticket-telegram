@@ -343,20 +343,24 @@ class TelegramDispatcher:
 
         lead_id = ""
         url = ""
+        source = ""
         if isinstance(lead, EnrichedLead):
             lead_id = lead.lead.id
             url = lead.lead.url
+            source = lead.lead.source
         elif isinstance(lead, dict):
             lead_inner = lead.get("lead", lead)
             if isinstance(lead_inner, Lead):
                 lead_id = lead_inner.id
                 url = lead_inner.url
+                source = lead_inner.source
             elif isinstance(lead_inner, dict):
                 lead_id = lead_inner.get("id", "")
                 url = lead_inner.get("url", "")
+                source = lead_inner.get("source", "")
 
         text = self.format_deal_card(lead)
-        markup = self.create_apply_markup(url) if url else None
+        markup = create_apply_markup(url, source=source) if url else None
 
         res = self.send_message_sync(
             chat_id=target_chat,

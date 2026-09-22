@@ -77,7 +77,7 @@ class EnrichmentEngine:
         # 3. Generate 3-bullet deal card
         enriched = DealCardGenerator.generate(lead, comp_data)
 
-        # 4. Probabilistic Jev Audit (if candidate is high ticket)
+        # 4. Probabilistic Jev Audit & Scam Defense Shield (if candidate is high ticket)
         if enriched.is_high_ticket:
             try:
                 from b2b_alert_bot.jev.bridge import evaluate_lead_with_jev
@@ -90,8 +90,22 @@ class EnrichmentEngine:
                     "source": lead.source,
                 })
                 if jev_res and jev_res.get("success"):
-                    enriched.jev_badge = jev_res.get("badge_summary")
-                    enriched.jev_confidence = jev_res.get("high_ticket_probability")
+                    # Scam Defense Shield: Suppress unpaid rev-share traps
+                    if jev_res.get("is_scam") or jev_res.get("scam_risk") == "unpaid_revshare":
+                        enriched.is_high_ticket = False
+                        enriched.scam_risk = "unpaid_revshare"
+                    else:
+                        enriched.jev_badge = jev_res.get("badge_summary")
+                        enriched.jev_confidence = jev_res.get("high_ticket_probability")
+                        enriched.apex_score = jev_res.get("apex_score")
+                        enriched.apex_tier = jev_res.get("apex_tier")
+                        enriched.scam_risk = jev_res.get("scam_risk")
+                        if jev_res.get("pitch_winner"):
+                            enriched.pitch_winner = jev_res.get("pitch_winner")
+                            enriched.winning_angle = enriched.pitch_winner
+                        
+                        # Tier routing: VIP for Apex Score >= 80 or High Ticket
+                        enriched.channel_tier = "VIP" if (enriched.apex_score or 0) >= 75 else "FREE"
             except Exception:
                 pass
 

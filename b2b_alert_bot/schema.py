@@ -115,6 +115,11 @@ class EnrichedLead:
     commercial_objective: Optional[str] = None # Core business goal for the contract
     business_requirements: List[str] = field(default_factory=list) # Concrete deliverables
     required_capabilities: Optional[str] = None # Structured tech & domain requirements
+    apex_score: Optional[int] = None # 0 - 100 calibrated quality score
+    apex_tier: Optional[str] = None # e.g. "TOP 1% DEAL", "ELITE CONTRACT", "PRIME CONTRACT"
+    scam_risk: Optional[str] = None # "verified_funded", "suspicious", "unpaid_revshare"
+    pitch_winner: Optional[str] = None # Jev-optimized winning pitch angle
+    channel_tier: str = "VIP" # "VIP" or "FREE"
 
     def to_dict(self) -> Dict[str, Any]:
         """Serialize EnrichedLead instance to dictionary."""
@@ -137,4 +142,9 @@ class EnrichedLead:
             "commercial_objective": self.commercial_objective,
             "business_requirements": self.business_requirements,
             "required_capabilities": self.required_capabilities,
+            "apex_score": self.apex_score,
+            "apex_tier": self.apex_tier,
+            "scam_risk": self.scam_risk,
+            "pitch_winner": self.pitch_winner,
+            "channel_tier": self.channel_tier,
         }

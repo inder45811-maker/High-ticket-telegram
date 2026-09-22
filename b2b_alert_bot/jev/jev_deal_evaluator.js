@@ -92,6 +92,24 @@ SOURCE: ${dealData.source || 'Direct Feed'}
         type: 'score',
         instructions: 'Rate client hiring urgency and decision intent from 1 (vague or casual query) to 5 (immediate, funded, and urgent hiring need).',
         criteria: ['1', '2', '3', '4', '5']
+      },
+      scam_risk: {
+        type: 'choice',
+        instructions: 'Evaluate client legitimacy and payment risk.',
+        criteria: {
+          verified_funded: 'Legitimate funded company with realistic commercial compensation',
+          suspicious: 'Vague promises, no clear commercial terms, or questionable setup',
+          unpaid_revshare: 'Disguised unpaid work, equity-only, or free test project trap'
+        }
+      },
+      pitch_strategy: {
+        type: 'choice',
+        instructions: 'Which opening pitch vector has the highest probability of booking an immediate call with this client?',
+        criteria: {
+          diagnostic_audit: 'Offer an initial 3-day technical audit or architectural teardown of their immediate bottleneck',
+          milestone_escrow: 'Propose a structured 3-milestone delivery roadmap with escrow payments',
+          case_study_proof: 'Lead with 2 direct case study links and performance metrics rather than a traditional resume'
+        }
       }
     }
   });
@@ -101,6 +119,22 @@ SOURCE: ${dealData.source || 'Direct Feed'}
   const topTier = result.answers.budget_tier.choice;
   const tierProb = result.answers.budget_tier.probabilities[topTier] || 0.0;
   const intentScore = result.answers.client_intent.score;
+  const scamRiskChoice = result.answers.scam_risk ? result.answers.scam_risk.choice : 'verified_funded';
+  const pitchChoice = result.answers.pitch_strategy ? result.answers.pitch_strategy.choice : 'milestone_escrow';
+
+  const tierScores = { sub_2k: 15, mid_tier: 65, high_ticket: 88, enterprise: 100 };
+  const budgetWeight = tierScores[topTier] || 50;
+
+  // Compute Calibrated Apex Score (0 - 100)
+  let apexScore = Math.round((budgetWeight * 0.40) + (highTicketProb * 100 * 0.35) + ((intentScore / 5.0) * 100 * 0.25));
+  if (scamRiskChoice === 'unpaid_revshare') apexScore = Math.min(apexScore, 20);
+  if (scamRiskChoice === 'suspicious') apexScore = Math.max(10, apexScore - 25);
+  apexScore = Math.min(100, Math.max(0, apexScore));
+
+  let apexTier = 'STANDARD DEAL';
+  if (apexScore >= 90) apexTier = 'TOP 1% DEAL';
+  else if (apexScore >= 80) apexTier = 'ELITE CONTRACT';
+  else if (apexScore >= 70) apexTier = 'PRIME CONTRACT';
 
   const tierLabels = {
     sub_2k: '<$2,000 (Low Ticket)',
@@ -109,7 +143,13 @@ SOURCE: ${dealData.source || 'Direct Feed'}
     enterprise: '$30k+ (Enterprise)'
   };
 
-  const badgeSummary = `🛡️ <b>JEV DEAL AUDIT:</b> ${(highTicketProb * 100).toFixed(0)}% High-Ticket Confidence | 💼 ${tierLabels[topTier] || topTier} | ⚡ Urgency: ${intentScore.toFixed(1)}/5.0`;
+  const pitchDescriptions = {
+    diagnostic_audit: 'Propose an initial 3-day paid technical audit of their immediate bottleneck to de-risk the engagement.',
+    milestone_escrow: 'Lead with a structured 3-milestone delivery roadmap backed by milestone escrow.',
+    case_study_proof: 'Lead with 2 direct case study links demonstrating verified high-scale production metrics.'
+  };
+
+  const badgeSummary = `🔥 <b>APEX SCORE:</b> ${apexScore}/100 [${apexTier}]\n🛡️ <b>JEV DEAL AUDIT:</b> ${(highTicketProb * 100).toFixed(0)}% High-Ticket Confidence | 💼 ${tierLabels[topTier] || topTier} | ⚡ Urgency: ${intentScore.toFixed(1)}/5.0`;
 
   return {
     success: true,
@@ -120,6 +160,12 @@ SOURCE: ${dealData.source || 'Direct Feed'}
     tier_probability: tierProb,
     all_tier_probabilities: result.answers.budget_tier.probabilities,
     client_intent_score: intentScore,
+    scam_risk: scamRiskChoice,
+    is_scam: scamRiskChoice === 'unpaid_revshare',
+    apex_score: apexScore,
+    apex_tier: apexTier,
+    pitch_strategy: pitchChoice,
+    pitch_winner: pitchDescriptions[pitchChoice] || pitchDescriptions.milestone_escrow,
     badge_summary: badgeSummary,
     usage: result.usage
   };

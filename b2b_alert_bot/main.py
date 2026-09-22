@@ -66,6 +66,7 @@ from b2b_alert_bot.ingestion.jobspresso import JobspressoConnector
 from b2b_alert_bot.ingestion.reddit import RedditConnector
 from b2b_alert_bot.ingestion.remoteok import RemoteOKConnector
 from b2b_alert_bot.ingestion.weworkremotely import WeWorkRemotelyConnector
+from b2b_alert_bot.ingestion.x_signal import XSignalConnector
 from b2b_alert_bot.schema import EnrichedLead, Lead
 from b2b_alert_bot.webhook.handler import SubscriberStore
 from b2b_alert_bot.webhook.server import WhopWebhookServer, run_webhook_server
@@ -78,6 +79,7 @@ DEFAULT_CONNECTORS: List[Tuple[str, BaseConnector]] = [
     ("jobspresso", JobspressoConnector()),
     ("hackernews", HackerNewsConnector()),
     ("reddit", RedditConnector()),
+    ("x_signal", XSignalConnector()),
 ]
 
 FIXTURE_CANDIDATES: Dict[str, List[str]] = {

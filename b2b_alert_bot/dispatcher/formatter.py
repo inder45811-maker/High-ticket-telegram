@@ -188,11 +188,15 @@ def truncate_html(
 
 def create_apply_markup(
     url: str,
-    text: str = "🚀 Apply on Source"
+    text: Optional[str] = None,
+    source: str = ""
 ) -> Optional[Dict[str, Any]]:
     """Construct Telegram InlineKeyboardMarkup with direct URL button.
 
-    Validates that the URL scheme is http or https. Returns None if invalid or empty.
+    Automatically uses high-converting labels:
+    - '⚡ Direct DM to Founder' for X/Twitter
+    - '💬 Message Client on Reddit' for Reddit
+    - '🚀 Apply on Source' for standard feeds
     """
     if not url or not isinstance(url, str):
         return None
@@ -201,16 +205,58 @@ def create_apply_markup(
     if not (clean_url.startswith("http://") or clean_url.startswith("https://")):
         return None
 
+    if not text:
+        clean_url_lower = clean_url.lower()
+        if source == "x_signal" or "x.com" in clean_url_lower or "twitter.com" in clean_url_lower:
+            button_text = "⚡ Direct DM to Founder"
+        elif source == "reddit" or "reddit.com" in clean_url_lower:
+            button_text = "💬 Message Client on Reddit"
+        else:
+            button_text = "🚀 Apply on Source"
+    else:
+        button_text = text
+
     return {
         "inline_keyboard": [
             [
                 {
-                    "text": text,
+                    "text": button_text,
                     "url": clean_url
                 }
             ]
         ]
     }
+
+
+def format_free_deal_preview(
+    enriched: Union[EnrichedLead, Dict[str, Any]],
+    whop_url: str = "https://whop.com/t-7e74/high-ticket-contract-alerts"
+) -> str:
+    """Format a redacted teaser for the Free Community channel to drive Whop VIP subscriptions."""
+    if isinstance(enriched, EnrichedLead):
+        badge = enriched.budget_badge
+        title = enriched.clean_title or enriched.lead.title
+        apex_score = enriched.apex_score or 90
+        apex_tier = enriched.apex_tier or "TOP 1% DEAL"
+    else:
+        badge = enriched.get("budget_badge", "💰 $2,000+ HIGH-TICKET")
+        title = enriched.get("clean_title") or enriched.get("title", "Senior Specialist")
+        apex_score = enriched.get("apex_score", 90)
+        apex_tier = enriched.get("apex_tier", "TOP 1% DEAL")
+
+    esc_badge = html.escape(str(badge), quote=False)
+    esc_title = html.escape(str(title), quote=False)
+
+    return (
+        f"💎 <b>APEX RADAR | FREE STREAM PREVIEW</b>\n\n"
+        f"<b>{esc_badge}</b>\n\n"
+        f"🎯 <b>{esc_title}</b>\n"
+        f"🏢 <i>[Client Redacted — VIP Stream Only]</i>\n\n"
+        f"🔥 <b>APEX SCORE:</b> {apex_score}/100 [{apex_tier}]\n"
+        f"⚡ <i>Direct client link, Jev audit, and winning pitch angle are exclusive to VIP members.</i>\n\n"
+        f"🔓 <b>Unlock instant alerts & direct founder apply links:</b>\n"
+        f"<a href=\"{whop_url}\">👉 Join ApexRadar VIP on Whop</a>"
+    )
 
 
 def get_link_preview_options() -> Dict[str, Any]:
@@ -325,6 +371,7 @@ class TelegramFormatter:
     """Class wrapper providing static access to formatter functions."""
 
     format_deal_card = staticmethod(format_deal_card)
+    format_free_deal_preview = staticmethod(format_free_deal_preview)
     create_apply_markup = staticmethod(create_apply_markup)
     format_budget_badge = staticmethod(format_budget_badge)
     truncate_html = staticmethod(truncate_html)

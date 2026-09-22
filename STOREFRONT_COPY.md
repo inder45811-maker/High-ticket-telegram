@@ -1,4 +1,4 @@
-# B2B High-Ticket Contract Radar — Whop Storefront Sales Copy
+# ApexRadar — Real-Time B2B Contract Intelligence | Whop Storefront Sales Copy
 
 > **Turnkey Whop Storefront Kit**: Ready-to-paste sales copy, 3-tier pricing strategy, feature comparison matrix, objection-handling FAQ, and 100% risk-reversal guarantee for high-ticket remote freelance and agency contract alerts.
 

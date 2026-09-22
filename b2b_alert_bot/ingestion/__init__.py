@@ -11,6 +11,7 @@ from b2b_alert_bot.ingestion.remoteok import RemoteOKConnector
 from b2b_alert_bot.ingestion.jobspresso import JobspressoConnector
 from b2b_alert_bot.ingestion.hackernews import HackerNewsConnector
 from b2b_alert_bot.ingestion.reddit import RedditConnector
+from b2b_alert_bot.ingestion.x_signal import XSignalConnector
 
 __all__ = [
     "BaseConnector",
@@ -22,4 +23,5 @@ __all__ = [
     "JobspressoConnector",
     "HackerNewsConnector",
     "RedditConnector",
+    "XSignalConnector",
 ]
