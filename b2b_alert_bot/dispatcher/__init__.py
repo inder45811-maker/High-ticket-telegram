@@ -19,6 +19,16 @@ from b2b_alert_bot.dispatcher.telegram_bot import (
     TelegramDispatcher,
 )
 
+from b2b_alert_bot.dispatcher.linkedin_autopublisher import (
+    LinkedInAutoPublisher,
+    format_deal_teaser,
+)
+
+from b2b_alert_bot.dispatcher.x_publisher import (
+    XAutoPublisher,
+    format_x_deal_teaser,
+)
+
 __all__ = [
     "TELEGRAM_MAX_MESSAGE_LENGTH",
     "TelegramFormatter",
@@ -32,4 +42,8 @@ __all__ = [
     "TelegramDispatcher",
     "DispatchResult",
     "DispatchQueue",
+    "LinkedInAutoPublisher",
+    "format_deal_teaser",
+    "XAutoPublisher",
+    "format_x_deal_teaser",
 ]

@@ -30,32 +30,35 @@ project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-def _load_env_file() -> None:
-    """Auto-load environment variables from .env files if not already in os.environ."""
-    candidates = [
+# Automatically load environment variables from .env if present
+def _load_dotenv() -> None:
+    for env_path in [
         os.path.join(os.getcwd(), ".env"),
         os.path.join(project_root, ".env"),
+        os.path.expanduser("~/.env"),
         "/root/.env",
-    ]
-    for env_path in candidates:
+    ]:
         if os.path.isfile(env_path):
             try:
                 with open(env_path, "r", encoding="utf-8") as f:
                     for line in f:
-                        line = line.strip()
-                        if line and not line.startswith("#") and "=" in line:
-                            k, v = line.split("=", 1)
+                        clean_line = line.strip()
+                        if clean_line and not clean_line.startswith("#") and "=" in clean_line:
+                            k, v = clean_line.split("=", 1)
                             k = k.strip()
-                            v = v.strip().strip("\"'")
+                            v = v.strip().strip('"').strip("'")
                             if k and k not in os.environ:
                                 os.environ[k] = v
             except Exception:
                 pass
+            break
 
-_load_env_file()
+_load_dotenv()
 
 from b2b_alert_bot.db import Database
 from b2b_alert_bot.dispatcher.telegram_bot import TelegramDispatcher
+from b2b_alert_bot.dispatcher.linkedin_autopublisher import LinkedInAutoPublisher
+from b2b_alert_bot.dispatcher.x_publisher import XAutoPublisher
 from b2b_alert_bot.enrichment.engine import EnrichmentEngine
 from b2b_alert_bot.ingestion.base import BaseConnector
 from b2b_alert_bot.ingestion.hackernews import HackerNewsConnector
@@ -160,6 +163,9 @@ def run_poll(
         dry_run=dry_run,
     )
 
+    linkedin_publisher = LinkedInAutoPublisher(dry_run=dry_run)
+    x_publisher = XAutoPublisher(dry_run=dry_run)
+
     active_connectors = connectors or DEFAULT_CONNECTORS
     if sources:
         normalized_sources = {s.strip().lower() for s in sources if s.strip()}
@@ -251,6 +257,30 @@ def run_poll(
                         "DISPATCHED: [%s] %s - %s",
                         enriched.budget_badge, lead.client or "Unknown", lead.title
                     )
+
+                    # Autonomously publish teaser to LinkedIn (subject to algorithmic cooldown)
+                    if linkedin_publisher and linkedin_publisher.enabled:
+                        try:
+                            li_res = linkedin_publisher.maybe_publish_lead(enriched, db)
+                            if li_res and li_res.get("ok"):
+                                logger.info(
+                                    "AUTONOMOUS LINKEDIN POST PUBLISHED: %s",
+                                    li_res.get("post_urn")
+                                )
+                        except Exception as e:
+                            logger.warning("LinkedIn autopublish error for lead %s: %s", lead.id, e)
+
+                    # Autonomously publish teaser to X / Twitter
+                    if x_publisher and x_publisher.enabled:
+                        try:
+                            x_res = x_publisher.maybe_publish_lead(enriched, db)
+                            if x_res and x_res.get("ok"):
+                                logger.info(
+                                    "AUTONOMOUS X TWEET PUBLISHED: %s",
+                                    x_res.get("tweet_id")
+                                )
+                        except Exception as e:
+                            logger.warning("X autopublish error for lead %s: %s", lead.id, e)
                 else:
                     failed_dispatches += 1
                     logger.warning(

@@ -3,6 +3,7 @@
 import hashlib
 import json
 import sqlite3
+import time
 from collections import OrderedDict
 from datetime import datetime, timezone
 from typing import Optional, List, Tuple
@@ -115,6 +116,7 @@ class Database:
             conn = sqlite3.connect(self.db_path, timeout=30.0)
             conn.row_factory = sqlite3.Row
             # Configure WAL mode & performance pragmas
+            conn.execute("PRAGMA busy_timeout = 30000;")
             conn.execute("PRAGMA journal_mode = WAL;")
             conn.execute("PRAGMA synchronous = NORMAL;")
             conn.execute("PRAGMA temp_store = MEMORY;")
@@ -124,28 +126,61 @@ class Database:
 
     def _init_db(self) -> None:
         """Create tables and indices if they do not exist."""
-        conn = self._get_connection()
-        with conn:
-            conn.execute("""
-                CREATE TABLE IF NOT EXISTS ingested_leads (
-                    id TEXT PRIMARY KEY,
-                    source TEXT NOT NULL,
-                    title TEXT NOT NULL,
-                    client TEXT,
-                    url TEXT NOT NULL,
-                    raw_compensation TEXT,
-                    description TEXT,
-                    published_at TEXT,
-                    core_tech_stack TEXT,
-                    raw_metadata TEXT,
-                    status TEXT NOT NULL DEFAULT 'ingested',
-                    created_at TEXT NOT NULL
-                );
-            """)
-            conn.execute("CREATE INDEX IF NOT EXISTS idx_leads_source ON ingested_leads(source);")
-            conn.execute("CREATE INDEX IF NOT EXISTS idx_leads_status ON ingested_leads(status);")
-            conn.execute("CREATE INDEX IF NOT EXISTS idx_leads_created_at ON ingested_leads(created_at);")
-            conn.execute("CREATE INDEX IF NOT EXISTS idx_leads_published_at ON ingested_leads(published_at);")
+        for attempt in range(10):
+            try:
+                conn = self._get_connection()
+                with conn:
+                    conn.execute("""
+                        CREATE TABLE IF NOT EXISTS ingested_leads (
+                            id TEXT PRIMARY KEY,
+                            source TEXT NOT NULL,
+                            title TEXT NOT NULL,
+                            client TEXT,
+                            url TEXT NOT NULL,
+                            raw_compensation TEXT,
+                            description TEXT,
+                            published_at TEXT,
+                            core_tech_stack TEXT,
+                            raw_metadata TEXT,
+                            status TEXT NOT NULL DEFAULT 'ingested',
+                            created_at TEXT NOT NULL
+                        );
+                    """)
+                    conn.execute("CREATE INDEX IF NOT EXISTS idx_leads_source ON ingested_leads(source);")
+                    conn.execute("CREATE INDEX IF NOT EXISTS idx_leads_status ON ingested_leads(status);")
+                    conn.execute("CREATE INDEX IF NOT EXISTS idx_leads_created_at ON ingested_leads(created_at);")
+                    conn.execute("CREATE INDEX IF NOT EXISTS idx_leads_published_at ON ingested_leads(published_at);")
+
+                    conn.execute("""
+                        CREATE TABLE IF NOT EXISTS linkedin_posts (
+                            id TEXT PRIMARY KEY,
+                            lead_id TEXT NOT NULL,
+                            post_urn TEXT,
+                            post_text TEXT,
+                            published_at TEXT NOT NULL,
+                            FOREIGN KEY(lead_id) REFERENCES ingested_leads(id)
+                        );
+                    """)
+                    conn.execute("CREATE INDEX IF NOT EXISTS idx_li_lead_id ON linkedin_posts(lead_id);")
+                    conn.execute("CREATE INDEX IF NOT EXISTS idx_li_published_at ON linkedin_posts(published_at);")
+
+                    conn.execute("""
+                        CREATE TABLE IF NOT EXISTS x_posts (
+                            id TEXT PRIMARY KEY,
+                            lead_id TEXT NOT NULL,
+                            tweet_id TEXT,
+                            tweet_text TEXT,
+                            published_at TEXT NOT NULL,
+                            FOREIGN KEY(lead_id) REFERENCES ingested_leads(id)
+                        );
+                    """)
+                    conn.execute("CREATE INDEX IF NOT EXISTS idx_x_lead_id ON x_posts(lead_id);")
+                    conn.execute("CREATE INDEX IF NOT EXISTS idx_x_published_at ON x_posts(published_at);")
+                break
+            except sqlite3.OperationalError:
+                if attempt == 9:
+                    raise
+                time.sleep(0.05 * (attempt + 1))
 
     def is_duplicate(self, unique_hash: str) -> bool:
         """Check if a lead has already been ingested. O(1) in-memory or indexed query."""
@@ -287,6 +322,70 @@ class Database:
             cursor = conn.cursor()
             cursor.execute("DELETE FROM ingested_leads WHERE created_at < datetime('now', ?);", (f"-{days} days",))
             return cursor.rowcount
+
+    def record_linkedin_post(self, post_id: str, lead_id: str, post_urn: str, post_text: str) -> None:
+        """Record an autonomously published LinkedIn post."""
+        conn = self._get_connection()
+        now = datetime.now(timezone.utc).isoformat()
+        with conn:
+            conn.execute(
+                "INSERT OR REPLACE INTO linkedin_posts (id, lead_id, post_urn, post_text, published_at) VALUES (?, ?, ?, ?, ?);",
+                (post_id, lead_id, post_urn, post_text, now)
+            )
+
+    def is_lead_posted_to_linkedin(self, lead_id: str) -> bool:
+        """Check if a lead has already been published to LinkedIn."""
+        if not lead_id:
+            return False
+        conn = self._get_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT 1 FROM linkedin_posts WHERE lead_id = ? LIMIT 1;", (lead_id,))
+        return cur.fetchone() is not None
+
+    def get_last_linkedin_post_time(self) -> Optional[datetime]:
+        """Get timestamp of the most recent LinkedIn post, or None if none exist."""
+        conn = self._get_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT published_at FROM linkedin_posts ORDER BY published_at DESC LIMIT 1;")
+        row = cur.fetchone()
+        if row and row[0]:
+            try:
+                return datetime.fromisoformat(row[0])
+            except Exception:
+                return None
+        return None
+
+    def record_x_post(self, post_id: str, lead_id: str, tweet_id: str, tweet_text: str) -> None:
+        """Record an autonomously published X/Twitter tweet."""
+        conn = self._get_connection()
+        now = datetime.now(timezone.utc).isoformat()
+        with conn:
+            conn.execute(
+                "INSERT OR REPLACE INTO x_posts (id, lead_id, tweet_id, tweet_text, published_at) VALUES (?, ?, ?, ?, ?);",
+                (post_id, lead_id, tweet_id, tweet_text, now)
+            )
+
+    def is_lead_posted_to_x(self, lead_id: str) -> bool:
+        """Check if a lead has already been published to X/Twitter."""
+        if not lead_id:
+            return False
+        conn = self._get_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT 1 FROM x_posts WHERE lead_id = ? LIMIT 1;", (lead_id,))
+        return cur.fetchone() is not None
+
+    def get_last_x_post_time(self) -> Optional[datetime]:
+        """Get timestamp of the most recent X/Twitter post, or None if none exist."""
+        conn = self._get_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT published_at FROM x_posts ORDER BY published_at DESC LIMIT 1;")
+        row = cur.fetchone()
+        if row and row[0]:
+            try:
+                return datetime.fromisoformat(row[0])
+            except Exception:
+                return None
+        return None
 
     def close(self) -> None:
         """Close SQLite database connection."""

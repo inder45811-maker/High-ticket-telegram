@@ -283,21 +283,21 @@ def format_deal_card(
     else:
         raise TypeError(f"Expected EnrichedLead or dict, got {type(enriched).__name__}")
 
-    # Escaping
-    esc_badge = html.escape(str(badge))
-    esc_title = html.escape(str(lead_title or "High-Ticket Opportunity").strip())
-    esc_client = html.escape(str(lead_client or "Direct Client").strip())
-    esc_source = html.escape(str(lead_source or "Direct").strip().capitalize())
-    esc_skills = html.escape(str(skills or "Senior Engineering & Architecture").strip())
-    esc_angle = html.escape(str(winning_angle or "Propose a phased milestone delivery with relevant portfolio case studies.").strip())
+    # Escaping: quote=False preserves single/double quotes in text nodes while escaping &, <, >
+    esc_badge = html.escape(str(badge), quote=False)
+    esc_title = html.escape(str(lead_title or "High-Ticket Opportunity").strip(), quote=False)
+    esc_client = html.escape(str(lead_client or "Direct Client").strip(), quote=False)
+    esc_source = html.escape(str(lead_source or "Direct").strip().capitalize(), quote=False)
+    esc_skills = html.escape(str(skills or "Senior Engineering & Architecture").strip(), quote=False)
+    esc_angle = html.escape(str(winning_angle or "Propose a phased milestone delivery with relevant portfolio case studies.").strip(), quote=False)
 
-    short_id = html.escape(lead_id[:8] if lead_id else "deal")
-    time_str = html.escape(relative_time or "Posted recently")
+    short_id = html.escape(lead_id[:8] if lead_id else "deal", quote=False)
+    time_str = html.escape(relative_time or "Posted recently", quote=False)
 
     # If scope is massive, pre-truncate it to 3,000 characters before composing
     if len(scope) > 3000:
         scope = scope[:2950] + "..."
-    esc_scope = html.escape(scope)
+    esc_scope = html.escape(scope, quote=False)
 
     card = (
         f"<b>{esc_badge}</b>\n\n"
