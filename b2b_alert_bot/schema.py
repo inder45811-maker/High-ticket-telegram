@@ -107,6 +107,8 @@ class EnrichedLead:
     scope_bullet: str               # Deliverables & scope summary
     skills_bullet: str              # Key required tech & skills
     winning_angle: str              # Actionable 1-sentence application tip
+    jev_badge: Optional[str] = None # Jev calibrated audit badge HTML
+    jev_confidence: Optional[float] = None # Calibrated high-ticket probability (0.0 to 1.0)
 
     def to_dict(self) -> Dict[str, Any]:
         """Serialize EnrichedLead instance to dictionary."""
@@ -120,5 +122,7 @@ class EnrichedLead:
             "budget_badge": self.budget_badge,
             "scope_bullet": self.scope_bullet,
             "skills_bullet": self.skills_bullet,
-            "winning_angle": self.winning_angle
+            "winning_angle": self.winning_angle,
+            "jev_badge": self.jev_badge,
+            "jev_confidence": self.jev_confidence
         }

@@ -368,18 +368,38 @@ class LinkedInAutoPublisher:
                 )
                 return None
 
-        # 3. Choose dynamic template based on rotation history
-        chosen_template = self._select_next_template(db)
-        recent_deals = self._get_recent_deal_summaries(db) if chosen_template == "PLATFORM_TAX_CONTRAST" else None
+        # 3. Autonomous Jev Multi-Template Campaign Evaluation
+        recent_deals = self._get_recent_deal_summaries(db)
+        candidates = {}
+        for tmpl in TEMPLATES:
+            candidates[tmpl] = format_deal_teaser(
+                enriched=enriched,
+                whop_url=self.whop_url,
+                template=tmpl,
+                recent_deals=recent_deals if tmpl == "PLATFORM_TAX_CONTRAST" else None,
+            )
 
-        post_text = format_deal_teaser(
-            enriched=enriched,
-            whop_url=self.whop_url,
-            template=chosen_template,
-            recent_deals=recent_deals,
-        )
+        chosen_template = self._select_next_template(db)
+        post_text = candidates[chosen_template]
+
+        try:
+            from b2b_alert_bot.jev.bridge import optimize_campaign_with_jev
+            deal_info = {
+                "title": enriched.lead.title if enriched.lead and enriched.lead.title else "High-Ticket Lead",
+                "budget": getattr(enriched, "budget_badge", "High-Ticket")
+            }
+            jev_opt = optimize_campaign_with_jev(candidates, platform="linkedin", deal_info=deal_info)
+            if jev_opt and jev_opt.get("success"):
+                winner_key = jev_opt.get("winner_key")
+                if winner_key and winner_key in candidates:
+                    chosen_template = winner_key
+                    post_text = candidates[winner_key]
+                logger.info("Jev Autonomous LinkedIn Winner: %s", jev_opt.get("audit_summary"))
+        except Exception as e:
+            logger.debug("Jev campaign optimization fallback: %s", e)
+
         logger.info(
-            "Autonomous LinkedIn publishing triggered [Template: %s] for lead %s: %s",
+            "Autonomous LinkedIn publishing triggered [Jev Chosen Template: %s] for lead %s: %s",
             chosen_template, lead_id, enriched.lead.title
         )
         

@@ -1,0 +1,9 @@
+{
+  "name": "b2b-alert-bot",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "ai": "^4.1.54",
+    "@ai-sdk/gateway": "^0.1.14"
+  }
+}

@@ -299,6 +299,9 @@ def format_deal_card(
         scope = scope[:2950] + "..."
     esc_scope = html.escape(scope, quote=False)
 
+    jev_badge = getattr(enriched, "jev_badge", None) if not isinstance(enriched, dict) else enriched.get("jev_badge")
+    jev_section = f"\n\n{jev_badge}" if jev_badge else ""
+
     card = (
         f"<b>{esc_badge}</b>\n\n"
         f"🎯 <b>{esc_title}</b>\n"
@@ -306,7 +309,8 @@ def format_deal_card(
         f"📋 <b>Executive Summary:</b>\n"
         f"• <b>Scope:</b> {esc_scope}\n"
         f"• <b>Skills:</b> {esc_skills}\n"
-        f"• <b>Winning Angle:</b> {esc_angle}\n\n"
+        f"• <b>Winning Angle:</b> {esc_angle}"
+        f"{jev_section}\n\n"
         f"🕒 <i>{time_str}</i> | 🆔 <code>#{short_id}</code>"
     )
 

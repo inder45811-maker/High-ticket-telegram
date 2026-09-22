@@ -20,3 +20,5 @@ daemon.log
 
 # Development & agent artifacts
 .agents/
+node_modules
+node_modules/

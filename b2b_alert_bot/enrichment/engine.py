@@ -75,7 +75,27 @@ class EnrichmentEngine:
             }
 
         # 3. Generate 3-bullet deal card
-        return DealCardGenerator.generate(lead, comp_data)
+        enriched = DealCardGenerator.generate(lead, comp_data)
+
+        # 4. Probabilistic Jev Audit (if candidate is high ticket)
+        if enriched.is_high_ticket:
+            try:
+                from b2b_alert_bot.jev.bridge import evaluate_lead_with_jev
+                jev_res = evaluate_lead_with_jev({
+                    "title": lead.title,
+                    "budget": enriched.budget_badge,
+                    "scope": enriched.scope_bullet,
+                    "skills": enriched.skills_bullet,
+                    "client": lead.client,
+                    "source": lead.source,
+                })
+                if jev_res and jev_res.get("success"):
+                    enriched.jev_badge = jev_res.get("badge_summary")
+                    enriched.jev_confidence = jev_res.get("high_ticket_probability")
+            except Exception:
+                pass
+
+        return enriched
 
     def enrich(self, lead: Lead) -> EnrichedLead:
         """Alias for enrich_lead."""

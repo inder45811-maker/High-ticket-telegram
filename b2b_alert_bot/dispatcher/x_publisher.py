@@ -425,14 +425,35 @@ class XAutoPublisher:
                 )
                 return None
 
-        # 4. Format tweet using dynamic archetype rotation
+        # 4. Autonomous Jev Multi-Template Campaign Evaluation
+        candidates = {}
+        for tmpl in X_TEMPLATES:
+            candidates[tmpl] = format_x_deal_teaser(
+                enriched,
+                whop_url=self.whop_url,
+                template=tmpl,
+            )
+
         chosen_template = self._select_next_template(db)
-        tweet_text = format_x_deal_teaser(
-            enriched,
-            whop_url=self.whop_url,
-            template=chosen_template,
-        )
-        logger.info("Publishing autonomous X deal alert [%s] for lead %s", chosen_template, lead_id)
+        tweet_text = candidates[chosen_template]
+
+        try:
+            from b2b_alert_bot.jev.bridge import optimize_campaign_with_jev
+            deal_info = {
+                "title": enriched.lead.title if enriched.lead and enriched.lead.title else "High-Ticket Lead",
+                "budget": getattr(enriched, "budget_badge", "High-Ticket")
+            }
+            jev_opt = optimize_campaign_with_jev(candidates, platform="x", deal_info=deal_info)
+            if jev_opt and jev_opt.get("success"):
+                winner_key = jev_opt.get("winner_key")
+                if winner_key and winner_key in candidates:
+                    chosen_template = winner_key
+                    tweet_text = candidates[winner_key]
+                logger.info("Jev Autonomous X Winner: %s", jev_opt.get("audit_summary"))
+        except Exception as e:
+            logger.debug("Jev X campaign optimization fallback: %s", e)
+
+        logger.info("Publishing autonomous X deal alert [Jev Chosen Template: %s] for lead %s", chosen_template, lead_id)
 
         # 5. Dispatch
         result = self.publish_tweet(tweet_text)
