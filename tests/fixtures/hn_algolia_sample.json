@@ -1,0 +1,36 @@
+{
+  "hits": [
+    {
+      "objectID": "49522910",
+      "parent_id": 49522897,
+      "story_id": 49522897,
+      "author": "lumen_founder",
+      "created_at": "2026-09-01T15:30:00.000Z",
+      "comment_text": "Lumen Labs | Robotics / Hardware Engineer | San Francisco, CA | REMOTE | Contract | $80-$120/hr | https://lumenresearch.co\n\n<p>We are building autonomous mobile robotics. Looking for senior Python, C++, and ROS engineers.</p>"
+    },
+    {
+      "objectID": "49522911",
+      "parent_id": 49522910,
+      "story_id": 49522897,
+      "author": "random_user",
+      "created_at": "2026-09-01T15:40:00.000Z",
+      "comment_text": "Do you accept candidates outside the US?"
+    },
+    {
+      "objectID": "49522920",
+      "parent_id": 49522905,
+      "story_id": 49522905,
+      "author": "job_seeker_99",
+      "created_at": "2026-09-01T16:00:00.000Z",
+      "comment_text": "SEEKING WORK | Full Stack Developer | Remote\n\nI have 5 years experience with React, TypeScript and Node.js. Rate: $50/hr. Email in profile."
+    },
+    {
+      "objectID": "49522921",
+      "parent_id": 49522905,
+      "story_id": 49522905,
+      "author": "agency_director",
+      "created_at": "2026-09-01T16:15:00.000Z",
+      "comment_text": "SEEKING FREELANCER | CloudScale Solutions | Senior DevOps / Terraform Architect | Remote (US/EU) | $90 - $110/hr\n\n<p>We need an experienced contractor to audit and migrate AWS infrastructure to Terraform. Must have deep Kubernetes and Docker experience.</p>"
+    }
+  ]
+}

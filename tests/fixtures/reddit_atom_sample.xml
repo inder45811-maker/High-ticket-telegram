@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>for hire: freelance and contract work</title>
+  <link href="https://www.reddit.com/r/forhire/" rel="self"/>
+  <updated>2026-09-20T12:00:00+00:00</updated>
+  <entry>
+    <id>t3_post123</id>
+    <title>[Hiring] Senior Python &amp; FastAPI Backend Architect ($75/hr)</title>
+    <link href="https://www.reddit.com/r/forhire/comments/post123/hiring_senior_python_fastapi_backend_architect/?utm_source=reddit&amp;utm_medium=usertext"/>
+    <author>
+      <name>/u/agency_lead</name>
+    </author>
+    <updated>2026-09-20T10:00:00+00:00</updated>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;Looking for a freelance developer to build an asynchronous data pipeline. Budget is $75/hr. Tech stack: Python, FastAPI, PostgreSQL, Redis.&lt;/p&gt;&lt;/div&gt;&lt;!-- SC_ON --&gt;</content>
+  </entry>
+  <entry>
+    <id>t3_post124</id>
+    <title>[For Hire] Full Stack Web Developer - React, Next.js, Node.js ($30/hr)</title>
+    <link href="https://www.reddit.com/r/forhire/comments/post124/for_hire_full_stack_web_developer/"/>
+    <author>
+      <name>/u/freelancer_bob</name>
+    </author>
+    <updated>2026-09-20T10:30:00+00:00</updated>
+    <content type="html">&lt;p&gt;I am available for hire. Contact me for portfolio.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <id>t3_sticky01</id>
+    <title>Rules Reminder: Minimum Rate is $15/hr and [Hiring] tag formatting</title>
+    <link href="https://www.reddit.com/r/forhire/comments/sticky01/rules_reminder/"/>
+    <author>
+      <name>/u/AutoModerator</name>
+    </author>
+    <updated>2026-09-01T00:00:00+00:00</updated>
+    <content type="html">&lt;p&gt;Please read the sub rules carefully before submitting.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <id>t3_post125</id>
+    <title>[HIRING] Shopify &amp; Liquid Developer for Custom Theme Overhaul ($3,500 fixed)</title>
+    <link href="https://www.reddit.com/r/forhire/comments/post125/hiring_shopify_liquid_developer/"/>
+    <author>
+      <name>/u/ecom_brand</name>
+    </author>
+    <updated>2026-09-20T11:00:00+00:00</updated>
+    <content type="html">&lt;p&gt;Need an expert Shopify theme developer. Fixed budget is $3,500. Scope: rewrite homepage and product detail templates.&lt;/p&gt;</content>
+  </entry>
+</feed>

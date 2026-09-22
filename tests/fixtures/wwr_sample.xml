@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss">
+  <channel>
+    <title>We Work Remotely: Remote Full-Stack Programming Jobs</title>
+    <link>https://weworkremotely.com</link>
+    <description>Remote jobs in full-stack programming</description>
+    <language>en-us</language>
+    <item>
+      <title>Legion: Director of Production Engineering</title>
+      <link>https://weworkremotely.com/remote-jobs/legion-director-of-production-engineering?utm_source=feed&amp;utm_medium=rss</link>
+      <guid>https://weworkremotely.com/remote-jobs/legion-director-of-production-engineering</guid>
+      <pubDate>Mon, 07 Sep 2026 07:30:54 +0000</pubDate>
+      <region>Anywhere in the World</region>
+      <category>Full-Stack Programming</category>
+      <description>&lt;p&gt;Legion is looking for a Director of Production Engineering to scale our Kubernetes clusters and Python microservices.&lt;/p&gt;&lt;p&gt;Salary: $150,000 - $180,000/yr&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Acme Corp: Senior Python / FastAPI Architect</title>
+      <link>https://weworkremotely.com/remote-jobs/acme-corp-fastapi-architect/</link>
+      <guid>https://weworkremotely.com/remote-jobs/acme-corp-fastapi-architect/</guid>
+      <pubDate>Tue, 08 Sep 2026 12:00:00 +0000</pubDate>
+      <region>USA Only</region>
+      <category>Back-End Programming</category>
+      <description>&lt;p&gt;High ticket contract for an experienced FastAPI architect. PostgreSQL and Redis experience required.&lt;/p&gt;&lt;p&gt;Rate: $90/hr&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>DevOps Consultant</title>
+      <link>https://weworkremotely.com/remote-jobs/devops-consultant</link>
+      <guid>https://weworkremotely.com/remote-jobs/devops-consultant</guid>
+      <pubDate>Wed, 09 Sep 2026 14:00:00 +0000</pubDate>
+      <region>Americas</region>
+      <category>DevOps</category>
+      <description>&lt;p&gt;Contract role for Docker, Terraform, and AWS migration.&lt;/p&gt;&lt;p&gt;Budget: $5,000 fixed&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

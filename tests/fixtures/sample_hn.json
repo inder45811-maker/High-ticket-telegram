@@ -1,0 +1,76 @@
+{
+  "hits": [
+    {
+      "objectID": "49522897",
+      "title": "Ask HN: Who is hiring? (September 2026)",
+      "author": "whoishiring",
+      "created_at": "2026-09-01T15:00:00Z",
+      "story_id": 49522897,
+      "parent_id": null,
+      "points": 450,
+      "num_comments": 820
+    },
+    {
+      "objectID": "49522905",
+      "title": "Ask HN: Freelancer? Seeking freelancer? (September 2026)",
+      "author": "whoishiring",
+      "created_at": "2026-09-01T15:05:00Z",
+      "story_id": 49522905,
+      "parent_id": null,
+      "points": 180,
+      "num_comments": 240
+    },
+    {
+      "objectID": "49523001",
+      "author": "lumenfounder",
+      "story_id": 49522897,
+      "parent_id": 49522897,
+      "created_at": "2026-09-01T15:20:00Z",
+      "comment_text": "Lumen Labs | Senior Distributed Systems Engineer | San Francisco, CA / REMOTE | Full-time or Contract | $140,000 - $180,000 / yr (~$80/hr) | https://lumenresearch.co<p>We are building autonomous robotics telemetry infrastructure. Looking for deep expertise in Rust, Go, Python, and Kafka. Direct contract inquiries welcome at jobs@lumenresearch.co</p>"
+    },
+    {
+      "objectID": "49523002",
+      "author": "agency_exec",
+      "story_id": 49522905,
+      "parent_id": 49522905,
+      "created_at": "2026-09-01T15:35:00Z",
+      "comment_text": "SEEKING FREELANCER | CloudScale Solutions | Kubernetes & Terraform Architect | REMOTE | $90 - $125 / hour | Apply: gigs@cloudscale.io<p>Need a senior cloud infrastructure specialist to build automated staging environments on AWS with Terraform and Kubernetes. Initial contract: 8 weeks at 30 hrs/week.</p>"
+    },
+    {
+      "objectID": "49523003",
+      "author": "dev_candidate",
+      "story_id": 49522905,
+      "parent_id": 49522905,
+      "created_at": "2026-09-01T15:40:00Z",
+      "comment_text": "SEEKING WORK | Full Stack React / Node Developer | Remote only | $45/hr<p>Hi! I am a full-stack developer with 4 years experience in React, TypeScript, Next.js, and Express. Portfolio: https://johndoe.dev. Email: john@johndoe.dev</p>"
+    },
+    {
+      "objectID": "49523004",
+      "author": "seed_founder",
+      "story_id": 49522897,
+      "parent_id": 49522897,
+      "created_at": "2026-09-01T15:50:00Z",
+      "comment_text": "Seedling AI | Founding Full Stack Engineer | Remote | Equity Only<p>We just raised $2M seed round from top angels. Looking for a founding engineer. Currently pre-revenue, equity only compensation until Series A.</p>"
+    },
+    {
+      "objectID": "49523005",
+      "author": "acme_lead",
+      "story_id": 49522897,
+      "parent_id": 49522897,
+      "created_at": "2026-09-01T16:00:00Z",
+      "comment_text": "Acme Widgets | WordPress Bug Fixer | Remote | $20/hr<p>Looking for a quick helper to clean up CSS on our blog. Budget $20/hr, max 10 hours.</p>"
+    },
+    {
+      "objectID": "49523006",
+      "author": "random_commenter",
+      "story_id": 49522897,
+      "parent_id": 49523001,
+      "created_at": "2026-09-01T16:15:00Z",
+      "comment_text": "Do you sponsor H1B visas for remote workers outside the US?"
+    }
+  ],
+  "nbHits": 8,
+  "page": 0,
+  "nbPages": 1,
+  "hitsPerPage": 100
+}

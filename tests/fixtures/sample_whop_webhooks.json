@@ -1,0 +1,99 @@
+{
+  "secret": "test_whop_secret_key_12345",
+  "went_valid_standard": {
+    "headers": {
+      "Webhook-Id": "msg_01HXYZ1234567890ABCDEFGH",
+      "Webhook-Timestamp": "1774116400",
+      "Webhook-Signature": "v1,0PvJqjbqMtyMiUZmXSiVvkWdhr+ZmO4DeT6bLc+r/CU=",
+      "Content-Type": "application/json"
+    },
+    "raw_body": "{\"action\":\"membership.went_valid\",\"data\":{\"id\":\"mem_test_valid_001\",\"user_id\":\"user_whop_alpha\",\"email\":\"alpha@example.com\",\"product_id\":\"prod_high_ticket\",\"plan_id\":\"plan_monthly_79\",\"status\":\"active\",\"valid\":true,\"telegram_account_id\":\"987654321\",\"custom_fields\":{\"telegram_username\":\"pro_freelancer\"},\"created_at\":1774116400,\"expires_at\":1776708400}}",
+    "payload": {
+      "action": "membership.went_valid",
+      "data": {
+        "id": "mem_test_valid_001",
+        "user_id": "user_whop_alpha",
+        "email": "alpha@example.com",
+        "product_id": "prod_high_ticket",
+        "plan_id": "plan_monthly_79",
+        "status": "active",
+        "valid": true,
+        "telegram_account_id": "987654321",
+        "custom_fields": {
+          "telegram_username": "pro_freelancer"
+        },
+        "created_at": 1774116400,
+        "expires_at": 1776708400
+      }
+    }
+  },
+  "went_valid_direct": {
+    "headers": {
+      "X-Whop-Signature": "1ff3a787a488ab3d5e1d65626ebf98685d2cf7a8fb073300b6865fa8eb87403c",
+      "Content-Type": "application/json"
+    },
+    "raw_body": "{\"action\":\"membership.went_valid\",\"data\":{\"id\":\"mem_test_valid_001\",\"user_id\":\"user_whop_alpha\",\"email\":\"alpha@example.com\",\"product_id\":\"prod_high_ticket\",\"plan_id\":\"plan_monthly_79\",\"status\":\"active\",\"valid\":true,\"telegram_account_id\":\"987654321\",\"custom_fields\":{\"telegram_username\":\"pro_freelancer\"},\"created_at\":1774116400,\"expires_at\":1776708400}}",
+    "payload": {
+      "action": "membership.went_valid",
+      "data": {
+        "id": "mem_test_valid_001",
+        "user_id": "user_whop_alpha",
+        "email": "alpha@example.com",
+        "product_id": "prod_high_ticket",
+        "plan_id": "plan_monthly_79",
+        "status": "active",
+        "valid": true,
+        "telegram_account_id": "987654321",
+        "created_at": 1774116400
+      }
+    }
+  },
+  "went_invalid_standard": {
+    "headers": {
+      "Webhook-Id": "msg_01HXYZ9999999999ABCDEFGH",
+      "Webhook-Timestamp": "1774200000",
+      "Webhook-Signature": "v1,FJHsE2zeyWic7Qfrq2w2bEVXmh2YcatvgX33oOOpYEM=",
+      "Content-Type": "application/json"
+    },
+    "raw_body": "{\"action\":\"membership.went_invalid\",\"data\":{\"id\":\"mem_test_valid_001\",\"user_id\":\"user_whop_alpha\",\"email\":\"alpha@example.com\",\"product_id\":\"prod_high_ticket\",\"plan_id\":\"plan_monthly_79\",\"status\":\"canceled\",\"valid\":false,\"telegram_account_id\":\"987654321\",\"created_at\":1774116400,\"canceled_at\":1774200000}}",
+    "payload": {
+      "action": "membership.went_invalid",
+      "data": {
+        "id": "mem_test_valid_001",
+        "user_id": "user_whop_alpha",
+        "email": "alpha@example.com",
+        "product_id": "prod_high_ticket",
+        "plan_id": "plan_monthly_79",
+        "status": "canceled",
+        "valid": false,
+        "telegram_account_id": "987654321",
+        "created_at": 1774116400,
+        "canceled_at": 1774200000
+      }
+    }
+  },
+  "tampered_payload": {
+    "headers": {
+      "Webhook-Id": "msg_01HXYZ1234567890ABCDEFGH",
+      "Webhook-Timestamp": "1774116400",
+      "Webhook-Signature": "v1,0PvJqjbqMtyMiUZmXSiVvkWdhr+ZmO4DeT6bLc+r/CU=",
+      "Content-Type": "application/json"
+    },
+    "raw_body": "{\"action\":\"membership.went_valid\",\"data\":{\"id\":\"mem_TAMPERED_001\",\"user_id\":\"user_attacker\",\"email\":\"attacker@example.com\"}}"
+  },
+  "invalid_signature": {
+    "headers": {
+      "Webhook-Id": "msg_01HXYZ1234567890ABCDEFGH",
+      "Webhook-Timestamp": "1774116400",
+      "Webhook-Signature": "v1,BAD_SIGNATURE_DATA_THAT_DOES_NOT_MATCH_HMAC=",
+      "Content-Type": "application/json"
+    },
+    "raw_body": "{\"action\":\"membership.went_valid\",\"data\":{\"id\":\"mem_test_valid_001\"}}"
+  },
+  "missing_signature_headers": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "raw_body": "{\"action\":\"membership.went_valid\",\"data\":{\"id\":\"mem_test_valid_001\"}}"
+  }
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss">
+  <channel>
+    <title>We Work Remotely - Remote Jobs</title>
+    <link>https://weworkremotely.com</link>
+    <description>The largest remote work community in the world.</description>
+    <language>en-US</language>
+    <item>
+      <title>Stripe: Senior Backend Architect - High Throughput</title>
+      <link>https://weworkremotely.com/remote-jobs/stripe-senior-backend-architect?utm_source=feed&amp;ref=wwr</link>
+      <guid>https://weworkremotely.com/remote-jobs/stripe-senior-backend-architect</guid>
+      <pubDate>Mon, 07 Sep 2026 07:30:54 +0000</pubDate>
+      <category>Back-End Programming</category>
+      <region>Anywhere in the World</region>
+      <description><![CDATA[<p>Stripe is hiring a Senior Backend Architect to optimize payment orchestration engines. Stack: Python, Go, PostgreSQL, Redis, Kafka, AWS. Compensation: $140,000 - $180,000/yr or $85/hr contract equivalent. Apply directly at https://stripe.com/jobs/123</p>]]></description>
+      <media:content url="https://weworkremotely.com/logos/stripe.png" medium="image"/>
+    </item>
+    <item>
+      <title>Vercel: Staff Full Stack Engineer</title>
+      <link>https://weworkremotely.com/remote-jobs/vercel-staff-full-stack-engineer/</link>
+      <guid>https://weworkremotely.com/remote-jobs/vercel-staff-full-stack-engineer</guid>
+      <pubDate>Tue, 08 Sep 2026 10:15:00 +0000</pubDate>
+      <category>Full-Stack Programming</category>
+      <region>Americas/Europe</region>
+      <description><![CDATA[<p>Looking for a Staff Full Stack Engineer to lead Next.js core framework extensions. Stack: TypeScript, Next.js, React, Node.js, Tailwind, Docker. Fixed project contract budget: $8,500 fixed deliverable milestone. Apply via https://vercel.com/careers/lead-fullstack</p>]]></description>
+      <media:content url="https://weworkremotely.com/logos/vercel.png" medium="image"/>
+    </item>
+    <item>
+      <title>CloudNative: DevOps &amp; Kubernetes Consultant</title>
+      <link>https://weworkremotely.com/remote-jobs/cloudnative-devops-consultant</link>
+      <guid>https://weworkremotely.com/remote-jobs/cloudnative-devops-consultant</guid>
+      <pubDate>Wed, 09 Sep 2026 14:20:10 +0000</pubDate>
+      <category>DevOps and Sysadmin</category>
+      <region>USA Only</region>
+      <description><![CDATA[<p>Boutique agency needs a DevOps consultant to configure multi-region Kubernetes clusters. Required: Terraform, Kubernetes, AWS, Docker, Linux. Hourly rate: $95 - $120/hr. Project length: 3 months.</p>]]></description>
+    </item>
+    <item>
+      <title>Acme Micro: Junior Website Maintenance Helper</title>
+      <link>https://weworkremotely.com/remote-jobs/acme-junior-helper</link>
+      <guid>https://weworkremotely.com/remote-jobs/acme-junior-helper</guid>
+      <pubDate>Thu, 10 Sep 2026 16:00:00 +0000</pubDate>
+      <category>Front-End Programming</category>
+      <region>Anywhere in the World</region>
+      <description><![CDATA[<p>Need someone to fix minor HTML/CSS bugs. Budget: $400 fixed total or $20/hr. Apply at https://acmemicro.com</p>]]></description>
+    </item>
+    <item>
+      <title>Fintech Corp: Fractional Data Engineering Lead</title>
+      <link>https://weworkremotely.com/remote-jobs/fintech-corp-fractional-data-lead</link>
+      <guid>https://weworkremotely.com/remote-jobs/fintech-corp-fractional-data-lead</guid>
+      <pubDate>Fri, 11 Sep 2026 18:45:00 +0000</pubDate>
+      <category>Management and Finance</category>
+      <region>Europe Only</region>
+      <description><![CDATA[<p>Monthly contract retainer: €6,000/mo to oversee daily Snowflake and dbt ETL pipelines. Tech: Python, SQL, Snowflake, dbt, PostgreSQL.</p>]]></description>
+    </item>
+    <item>
+      <title>TitleWithoutColonAndUnstatedRate</title>
+      <link>https://weworkremotely.com/remote-jobs/unstyled-job-posting</link>
+      <guid>https://weworkremotely.com/remote-jobs/unstyled-job-posting</guid>
+      <pubDate>Sat, 12 Sep 2026 20:00:00 +0000</pubDate>
+      <category>Product</category>
+      <region>Anywhere</region>
+      <description><![CDATA[<p>Product designer position with competitive salary DOE. No explicit compensation mentioned.</p>]]></description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,34 @@
+[
+  {
+    "last_updated": 1789862431,
+    "legal": "API Terms of Service: Please link back to the URL on Remote OK..."
+  },
+  {
+    "id": 1137408,
+    "epoch": 1789804834,
+    "date": "2026-09-19T08:00:34+00:00",
+    "company": "KPI Solutions",
+    "position": "Software Deployment Engineer",
+    "tags": ["dev", "sys admin", "golang", "c", "engineer"],
+    "description": "<p>Looking for a deployment engineer to maintain Linux infrastructure and Docker pipelines.</p>",
+    "location": "Cincinnati",
+    "salary_min": 80000,
+    "salary_max": 140000,
+    "url": "https://remoteok.com/remote-jobs/remote-software-deployment-engineer-kpi-solutions-1137408?ref=rss",
+    "apply_url": "https://remoteok.com/remote-jobs/remote-software-deployment-engineer-kpi-solutions-1137408"
+  },
+  {
+    "id": 1137409,
+    "epoch": 1789804900,
+    "date": "2026-09-19T09:00:00+00:00",
+    "company": "TechFlow Systems",
+    "position": "Lead React / Next.js Engineer",
+    "tags": ["react", "next.js", "typescript"],
+    "description": "<p>Frontend specialist needed for high-scale dashboard project.</p>",
+    "location": "Remote",
+    "salary_min": 0,
+    "salary_max": 0,
+    "url": "https://remoteok.com/remote-jobs/techflow-react-engineer-1137409",
+    "apply_url": ""
+  }
+]

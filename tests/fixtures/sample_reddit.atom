@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>r/forhire: jobs &amp; freelancing</title>
+  <link rel="self" href="https://www.reddit.com/r/forhire/.rss"/>
+  <updated>2026-09-20T10:46:37+00:00</updated>
+  <entry>
+    <id>t3_post11111</id>
+    <title>[Hiring] Python / FastAPI Backend Engineer for B2B Integration - $5,000 Budget</title>
+    <link href="https://www.reddit.com/r/forhire/comments/post11111/hiring_python_fastapi_backend_engineer_for_b2b/"/>
+    <author>
+      <name>/u/agency_founder</name>
+    </author>
+    <updated>2026-09-20T08:15:00+00:00</updated>
+    <content type="html"><![CDATA[<!-- SC_OFF --><div class="md"><p>Looking for an experienced Python and FastAPI contractor to build an automated webhook dispatcher and SQLite store. Fixed budget of $5,000 for 2-3 weeks of work. Tech stack: Python, FastAPI, SQLite, Docker. Please DM portfolio or email jobs@agency.io.</p></div><!-- SC_ON -->]]></content>
+  </entry>
+  <entry>
+    <id>t3_post22222</id>
+    <title>[Hiring] Senior React Developer ($75/hr) for Fintech Dashboard</title>
+    <link href="https://www.reddit.com/r/forhire/comments/post22222/hiring_senior_react_developer_75hr_for_fintech/"/>
+    <author>
+      <name>/u/fintech_lead</name>
+    </author>
+    <updated>2026-09-20T09:00:00+00:00</updated>
+    <content type="html"><![CDATA[<!-- SC_OFF --><div class="md"><p>We need a senior React/TypeScript engineer to build high-performance data visualization components. Hourly rate: $75/hr, 20 hours per week for 2 months. Required: React, TypeScript, Next.js, Tailwind.</p></div><!-- SC_ON -->]]></content>
+  </entry>
+  <entry>
+    <id>t3_post33333</id>
+    <title>[For Hire] Full Stack Developer available for hire ($30/hr)</title>
+    <link href="https://www.reddit.com/r/forhire/comments/post33333/for_hire_full_stack_developer_available_for_hire/"/>
+    <author>
+      <name>/u/dev_looking_for_work</name>
+    </author>
+    <updated>2026-09-20T09:20:00+00:00</updated>
+    <content type="html"><![CDATA[<!-- SC_OFF --><div class="md"><p>I am a freelance software developer looking for projects. Rate $30/hr. Stack: HTML, CSS, JavaScript, PHP.</p></div><!-- SC_ON -->]]></content>
+  </entry>
+  <entry>
+    <id>t3_post44444</id>
+    <title>[Hiring] Need quick logo redesign ($50 fixed)</title>
+    <link href="https://www.reddit.com/r/forhire/comments/post44444/hiring_need_quick_logo_redesign_50_fixed/"/>
+    <author>
+      <name>/u/budget_poster</name>
+    </author>
+    <updated>2026-09-20T09:40:00+00:00</updated>
+    <content type="html"><![CDATA[<!-- SC_OFF --><div class="md"><p>Need someone to vectorize an image and design a simple logo. Budget: $50 fixed.</p></div><!-- SC_ON -->]]></content>
+  </entry>
+  <entry>
+    <id>t3_post55555</id>
+    <title>[Hiring] Fractional DevOps Engineer ($4,000/month Retainer)</title>
+    <link href="https://www.reddit.com/r/forhire/comments/post55555/hiring_fractional_devops_engineer_4000month/"/>
+    <author>
+      <name>/u/cloud_ops_director</name>
+    </author>
+    <updated>2026-09-20T10:00:00+00:00</updated>
+    <content type="html"><![CDATA[<!-- SC_OFF --><div class="md"><p>Seeking fractional DevOps engineer on a recurring $4,000/month contract retainer to maintain AWS Kubernetes clusters, CI/CD GitHub Actions pipelines, and Terraform configurations.</p></div><!-- SC_ON -->]]></content>
+  </entry>
+  <entry>
+    <id>t3_post66666</id>
+    <title>Rules Reminder: All [Hiring] posts must include budget</title>
+    <link href="https://www.reddit.com/r/forhire/comments/post66666/rules_reminder_all_hiring_posts_must_include/"/>
+    <author>
+      <name>/u/AutoModerator</name>
+    </author>
+    <updated>2026-09-20T10:30:00+00:00</updated>
+    <content type="html"><![CDATA[<!-- SC_OFF --><div class="md"><p>Please read the subreddit rules. All hiring posts must disclose budgets of at least $15/hr.</p></div><!-- SC_ON -->]]></content>
+  </entry>
+</feed>

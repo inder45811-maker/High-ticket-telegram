@@ -1,0 +1,22 @@
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Local data & databases
+*.db
+*.sqlite*
+data/
+
+# Environment credentials & secrets
+.env
+.env.*
+!.env.example
+
+# Logs & scratch files
+*.log
+daemon.log
+
+# Development & agent artifacts
+.agents/

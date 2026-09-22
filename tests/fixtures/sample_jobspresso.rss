@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>Jobspresso Remote Jobs</title>
+    <link>https://jobspresso.co/jobs/feed/</link>
+    <description>Curated remote careers in tech, marketing, and customer support.</description>
+    <language>en-US</language>
+    <item>
+      <title>Senior Full Stack Engineer, Realtime &amp; Voice</title>
+      <link>https://jobspresso.co/job/senior-full-stack-engineer-realtime-voice/?utm_source=rss</link>
+      <guid isPermaLink="false">https://jobspresso.co/?post_type=job_listing&amp;p=163412</guid>
+      <pubDate>Sat, 29 Aug 2026 02:11:11 +0000</pubDate>
+      <dc:creator><![CDATA[Hopper<br>⚲&nbsp;Canada]]></dc:creator>
+      <description><![CDATA[<p>Hopper is seeking a Senior Full Stack Engineer to lead WebRTC realtime audio streaming architecture.</p>]]></description>
+      <content:encoded><![CDATA[<p>We are looking for a Senior Full Stack Engineer specializing in WebRTC, Python, FastAPI, and React. Contract rate: $80 - $110 / hour. 35-40 hours per week for 6 months. Candidate must have strong experience in WebSocket protocols and audio latency tuning.</p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Principal Cloud Security Architect</title>
+      <link>https://jobspresso.co/job/principal-cloud-security-architect/</link>
+      <guid isPermaLink="false">https://jobspresso.co/?post_type=job_listing&amp;p=163413</guid>
+      <pubDate>Sun, 30 Aug 2026 09:30:00 +0000</pubDate>
+      <dc:creator><![CDATA[Automattic<br>⚲&nbsp;Worldwide]]></dc:creator>
+      <description><![CDATA[<p>Lead security audit and compliance across AWS, GCP, and Kubernetes infrastructure.</p>]]></description>
+      <content:encoded><![CDATA[<p>Contract project to perform SOC2 and cloud penetration audit. Fixed deliverable fee: $12,000 fixed milestone upon audit completion. Skills: AWS, GCP, Kubernetes, Terraform, Docker, Python.</p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Shopify Liquid Theme Developer</title>
+      <link>https://jobspresso.co/job/shopify-liquid-theme-developer</link>
+      <guid isPermaLink="false">https://jobspresso.co/?post_type=job_listing&amp;p=163414</guid>
+      <pubDate>Mon, 31 Aug 2026 14:00:00 +0000</pubDate>
+      <dc:creator><![CDATA[Boutique Brands<br>⚲&nbsp;United States]]></dc:creator>
+      <description><![CDATA[<p>Quick Shopify Liquid styling updates and checkout bug fixes.</p>]]></description>
+      <content:encoded><![CDATA[<p>Small gig to tweak CSS on our Shopify store. Paying $650 fixed total. Requires HTML, CSS, Shopify Liquid.</p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Database Performance Specialist</title>
+      <link>https://jobspresso.co/job/database-performance-specialist</link>
+      <guid isPermaLink="false">https://jobspresso.co/?post_type=job_listing&amp;p=163415</guid>
+      <pubDate>Tue, 01 Sep 2026 17:45:00 +0000</pubDate>
+      <dc:creator><![CDATA[DataScale Labs]]></dc:creator>
+      <description><![CDATA[<p>Resolve query latency and slow queries on PostgreSQL cluster.</p>]]></description>
+      <content:encoded><![CDATA[<p>Diagnostic consulting retainer: $4,500/mo retainer to benchmark and tune PostgreSQL indexing and connection pooling. Stack: PostgreSQL, Redis, Linux, Python.</p>]]></content:encoded>
+    </item>
+  </channel>
+</rss>

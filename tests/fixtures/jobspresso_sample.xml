@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+  xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
+  <channel>
+    <title>Jobspresso</title>
+    <link>https://jobspresso.co</link>
+    <description>Curated remote jobs</description>
+    <item>
+      <title>Senior Full Stack Engineer, Realtime &amp; Voice</title>
+      <link>https://jobspresso.co/job/senior-full-stack-engineer-realtime-voice/?utm_campaign=feed</link>
+      <guid isPermaLink="false">https://jobspresso.co/?post_type=job_listing&amp;p=163412</guid>
+      <pubDate>Sat, 29 Aug 2026 02:11:11 +0000</pubDate>
+      <dc:creator><![CDATA[Hopper<br>⚲&nbsp;Canada]]></dc:creator>
+      <description><![CDATA[<p>Summary excerpt here.</p>]]></description>
+      <content:encoded><![CDATA[<p>Hopper is hiring a Senior Full Stack Engineer. Tech: Python, React, PostgreSQL, AWS.</p><p>Compensation: $120,000 - $160,000</p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Cloud Infrastructure Consultant</title>
+      <link>https://jobspresso.co/job/cloud-infra-consultant/</link>
+      <guid isPermaLink="false">https://jobspresso.co/?post_type=job_listing&amp;p=163413</guid>
+      <pubDate>Sun, 30 Aug 2026 10:00:00 +0000</pubDate>
+      <dc:creator><![CDATA[Stripe]]></dc:creator>
+      <description><![CDATA[<p>Kubernetes and Terraform contract specialist. Rate: $95/hr</p>]]></description>
+    </item>
+  </channel>
+</rss>
