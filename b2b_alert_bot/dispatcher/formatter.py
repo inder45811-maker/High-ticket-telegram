@@ -333,7 +333,17 @@ def format_deal_card(
     esc_badge = html.escape(str(badge), quote=False)
     esc_title = html.escape(str(lead_title or "High-Ticket Opportunity").strip(), quote=False)
     esc_client = html.escape(str(lead_client or "Direct Client").strip(), quote=False)
-    esc_source = html.escape(str(lead_source or "Direct").strip().capitalize(), quote=False)
+    raw_meta = getattr(getattr(enriched, "lead", None), "raw_metadata", {}) or {}
+    if not raw_meta and isinstance(enriched, dict):
+        lead_dict = enriched.get("lead", {})
+        raw_meta = lead_dict.get("raw_metadata", {}) if isinstance(lead_dict, dict) else {}
+
+    subreddit = raw_meta.get("subreddit") if isinstance(raw_meta, dict) else None
+    if (lead_source or "").lower() == "reddit" and subreddit:
+        esc_source = html.escape(f"Reddit (r/{subreddit})", quote=False)
+    else:
+        esc_source = html.escape(str(lead_source or "Direct").strip().capitalize(), quote=False)
+
     esc_skills = html.escape(str(skills or "Senior Engineering & Architecture").strip(), quote=False)
     esc_angle = html.escape(str(winning_angle or "Propose a phased milestone delivery with relevant portfolio case studies.").strip(), quote=False)
 

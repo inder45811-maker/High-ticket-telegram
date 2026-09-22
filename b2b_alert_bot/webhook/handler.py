@@ -13,6 +13,7 @@ import json
 import logging
 import os
 import sqlite3
+import threading
 import time
 from typing import Any, Dict, List, Optional, Tuple, Union
 
@@ -282,6 +283,7 @@ class WhopWebhookHandler:
         self.invite_ttl_seconds = invite_ttl_seconds
         self.telegram_api = telegram_api or TelegramApiClient(bot_token=self.bot_token)
         self.store = SubscriberStore(db_path=db_path)
+        self._lock = threading.Lock()
 
     def verify_signature(self, payload: bytes, signature: str, timestamp: str = "") -> bool:
         """Verify webhook signature matching PROJECT.md interface contract."""
@@ -456,35 +458,36 @@ class WhopWebhookHandler:
         event_id: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Dispatch event payload to corresponding lifecycle handler."""
-        action = payload.get("action") or payload.get("event") or payload.get("event_type") or ""
-        data = payload.get("data")
-        if data is None and isinstance(payload, dict):
-            # Payload might directly contain the fields
-            data = payload
+        with self._lock:
+            action = payload.get("action") or payload.get("event") or payload.get("event_type") or ""
+            data = payload.get("data")
+            if data is None and isinstance(payload, dict):
+                # Payload might directly contain the fields
+                data = payload
 
-        # Check deduplication on event_id
-        if event_id and self.store.is_event_processed(event_id):
-            logger.info("Event %s already processed (idempotent ignore)", event_id)
-            membership_id = data.get("id") or data.get("membership_id")
-            existing = self.store.get_subscriber(membership_id) if membership_id else None
-            return {
-                "ok": True,
-                "status": "success",
-                "action": "already_processed",
-                "idempotent": True,
-                "membership_id": membership_id,
-                "invite_link": existing.get("invite_link") if existing else None,
-            }
+            # Check deduplication on event_id
+            if event_id and self.store.is_event_processed(event_id):
+                logger.info("Event %s already processed (idempotent ignore)", event_id)
+                membership_id = data.get("id") or data.get("membership_id")
+                existing = self.store.get_subscriber(membership_id) if membership_id else None
+                return {
+                    "ok": True,
+                    "status": "success",
+                    "action": "already_processed",
+                    "idempotent": True,
+                    "membership_id": membership_id,
+                    "invite_link": existing.get("invite_link") if existing else None,
+                }
 
-        if action == "membership.went_valid":
-            return self.handle_went_valid(data, event_id=event_id)
-        elif action == "membership.went_invalid":
-            return self.handle_went_invalid(data, event_id=event_id)
-        else:
-            logger.info("Ignored unhandled Whop event action: %s", action)
-            if event_id:
-                self.store.record_event(event_id, action, processed_status="ignored")
-            return {"ok": True, "status": "ignored", "action": action}
+            if action == "membership.went_valid":
+                return self.handle_went_valid(data, event_id=event_id)
+            elif action == "membership.went_invalid":
+                return self.handle_went_invalid(data, event_id=event_id)
+            else:
+                logger.info("Ignored unhandled Whop event action: %s", action)
+                if event_id:
+                    self.store.record_event(event_id, action, processed_status="ignored")
+                return {"ok": True, "status": "ignored", "action": action}
 
     async def handle_event(self, event_type: str, data: dict) -> dict:
         """Asynchronous handler method matching PROJECT.md interface contract."""

@@ -57,13 +57,23 @@ def verify_whop_signature(
     # --------------------------------------------------------------------------
     # Case 1: Standard Webhooks specification (Svix standard used by Whop)
     # --------------------------------------------------------------------------
-    msg_id = norm_headers.get("webhook-id")
-    ts_str = norm_headers.get("webhook-timestamp")
-    sig_header = norm_headers.get("webhook-signature")
+    if "webhook-id" in norm_headers or "webhook-timestamp" in norm_headers or "webhook-signature" in norm_headers:
+        msg_id = norm_headers.get("webhook-id")
+        ts_str = norm_headers.get("webhook-timestamp")
+        sig_header = norm_headers.get("webhook-signature")
 
-    if msg_id and ts_str and sig_header:
+        if not (msg_id and sig_header):
+            return False, "Missing signature headers"
+
+        for bad_char in ["\x00", "\r", "\n", "\t", "\x1b"]:
+            if bad_char in sig_header:
+                return False, "Malformed signature header"
+
+        if ts_str is None or not str(ts_str).strip():
+            return False, "Invalid timestamp header"
+
         try:
-            ts = int(ts_str)
+            ts = int(str(ts_str).strip())
             if abs(now - ts) > max_age_seconds:
                 return False, "Timestamp drift exceeds limit (replay attack)"
         except (ValueError, TypeError):

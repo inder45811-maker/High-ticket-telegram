@@ -65,9 +65,30 @@ def is_funding_false_positive(
     if not text:
         return False
 
+    # 1. If immediate context contains an explicit contract marker, it is a valid project budget
+    imm_start = max(0, match_start - 30)
+    imm_end = min(len(text), match_end + 30)
+    imm_window = text[imm_start:imm_end].lower()
+    for marker in EXPLICIT_CONTRACT_MARKERS:
+        if re.search(rf"\b{re.escape(marker)}\b", imm_window):
+            return False
+
     start = max(0, match_start - window_size)
     end = min(len(text), match_end + window_size)
-    window = text[start:end].lower()
+
+    # 2. Restrict window to sentence boundaries so prior sentences do not contaminate
+    pre_text = text[start:match_start]
+    post_text = text[match_end:end]
+
+    for punct in [". ", "!\n", "?\n", ".\n", "! ", "? "]:
+        idx = pre_text.rfind(punct)
+        if idx != -1:
+            pre_text = pre_text[idx + len(punct):]
+        idx_post = post_text.find(punct)
+        if idx_post != -1:
+            post_text = post_text[:idx_post]
+
+    window = (pre_text + text[match_start:match_end] + post_text).lower()
 
     keywords = funding_keywords if funding_keywords is not None else FUNDING_KEYWORDS
 

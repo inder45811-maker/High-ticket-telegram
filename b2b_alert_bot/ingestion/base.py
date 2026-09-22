@@ -150,9 +150,16 @@ class BaseConnector(ABC):
 
                 # HTTP 429 Rate Limiting
                 if response.status_code == 429:
-                    retry_after = response.headers.get("Retry-After")
-                    if retry_after and retry_after.isdigit():
-                        sleep_time = float(retry_after)
+                    # Check both standard Retry-After and x-ratelimit-reset (used by Reddit, GitHub, etc.)
+                    retry_header = response.headers.get("Retry-After") or response.headers.get("x-ratelimit-reset")
+                    if retry_header:
+                        try:
+                            sleep_time = max(1.0, float(retry_header) + 1.0)
+                        except (ValueError, TypeError):
+                            sleep_time = random.uniform(
+                                self.base_delay,
+                                self.base_delay * (self.backoff_multiplier ** attempt) + 1.0
+                            )
                     else:
                         sleep_time = random.uniform(
                             self.base_delay,
