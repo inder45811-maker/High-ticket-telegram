@@ -99,7 +99,7 @@ class TelegramDispatcher:
             session: Optional requests.Session instance for connection pooling / testing.
         """
         self.bot_token = bot_token or os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
-        self.chat_id = chat_id or os.environ.get("TELEGRAM_CHAT_ID", "").strip()
+        self.chat_id = chat_id or os.environ.get("TELEGRAM_CHAT_ID", "").strip() or os.environ.get("TELEGRAM_CHANNEL_ID", "").strip()
 
         # Resolve dry-run flag
         env_dry_run = os.environ.get("DRY_RUN", "").strip().lower() in ("true", "1", "yes")
