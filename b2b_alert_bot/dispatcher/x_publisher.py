@@ -148,13 +148,13 @@ class XAutoPublisher:
         enabled: Optional[bool] = None,
         dry_run: bool = False,
     ):
-        self.api_key = api_key or os.environ.get("X_API_KEY", "")
-        self.api_secret = api_secret or os.environ.get("X_API_SECRET", "")
-        self.access_token = access_token or os.environ.get("X_ACCESS_TOKEN", "")
-        self.access_token_secret = access_token_secret or os.environ.get("X_ACCESS_TOKEN_SECRET", "")
-        self.webhook_url = webhook_url or os.environ.get("X_WEBHOOK_URL", "")
-        self.buffer_token = os.environ.get("BUFFER_ACCESS_TOKEN", "")
-        self.whop_url = whop_url or os.environ.get("X_WHOP_URL", DEFAULT_WHOP_URL)
+        self.api_key = (api_key or os.environ.get("X_API_KEY", "")).strip().strip('"').strip("'")
+        self.api_secret = (api_secret or os.environ.get("X_API_SECRET", "")).strip().strip('"').strip("'")
+        self.access_token = (access_token or os.environ.get("X_ACCESS_TOKEN", "")).strip().strip('"').strip("'")
+        self.access_token_secret = (access_token_secret or os.environ.get("X_ACCESS_TOKEN_SECRET", "")).strip().strip('"').strip("'")
+        self.webhook_url = (webhook_url or os.environ.get("X_WEBHOOK_URL", "")).strip().strip('"').strip("'")
+        self.buffer_token = os.environ.get("BUFFER_ACCESS_TOKEN", "").strip().strip('"').strip("'")
+        self.whop_url = (whop_url or os.environ.get("X_WHOP_URL", DEFAULT_WHOP_URL)).strip().strip('"').strip("'")
         self._cached_buffer_channel_id = None
 
         env_cooldown = os.environ.get("X_COOLDOWN_HOURS")

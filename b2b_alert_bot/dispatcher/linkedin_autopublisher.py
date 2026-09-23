@@ -176,8 +176,10 @@ class LinkedInAutoPublisher:
         enabled: Optional[bool] = None,
         dry_run: bool = False,
     ):
-        self.token = token or os.environ.get("LINKEDIN_ACCESS_TOKEN", "")
-        self.author_urn = author_urn or os.environ.get("LINKEDIN_AUTHOR_URN", "")
+        raw_token = token or os.environ.get("LINKEDIN_ACCESS_TOKEN", "")
+        self.token = raw_token.strip().strip('"').strip("'")
+        raw_author = author_urn or os.environ.get("LINKEDIN_AUTHOR_URN", "")
+        self.author_urn = raw_author.strip().strip('"').strip("'")
         self.whop_url = whop_url or os.environ.get("LINKEDIN_WHOP_URL", DEFAULT_WHOP_URL)
         
         env_cooldown = os.environ.get("LINKEDIN_COOLDOWN_HOURS")
